@@ -16,13 +16,14 @@
 
     <hr/>
     <h1>Question 1: Currency Conversion</h1>
-    <p>The work in this reprository reflects my first encounter with React.  Less than 24 hours about I only knew that React was a
+    <p>The work in this repository reflects my first encounter with React.  Less than 24 hours ago I only knew that React was a
     framework similar to Angular and Vue.js.  I knew it was considered a challenge to learn compared to Vue.js yet not as
     difficult to learn as Angular.  Well, twenty hours later I can say that it is definitely not as difficult to learn as
-    Angular.  At this stage I'm still a noob at React yet I've acomplished the task.</p>
-    <p>In the past, when I have assignments like this, I normally provide richer testing and much nicer looking interfaces.</p>
+    Angular.  At this stage I'm still a noob yet I've accomplished the essentials of the assignment. The results need polish and some
+		 more error handling</p>
     <div id="currencyConversion"></div>
 
+	 <!- ____________________________________ ->
     <hr/>
     <h1>Question 2: Fix Test Component </h1>
     <p>The following component's code contained several errors (that have been fixed) including.  Click on the 'Test Component' text to increment the click count.</p>
@@ -33,20 +34,23 @@
     </uL>
     <div id="testComponent"></div>
 
+	 <!- ____________________________________ ->
     <hr/>
     <h1>Question 3: Series Searcher</h1>
     <p>Select your options as per the assignment document and see the results.
     </p>
     <div id="series"></div>
-    <h3>The main calculation function:</h3>
+    <h3>Here is the main calculation function.  This code assumes the caller has completed checks on the inputs before calling this function.</h3>
   <pre>
-    function question3(inputs) {
+{
 	let start = inputs.seriesStart;
 	let end = inputs.seriesEnd;
 	let incr = inputs.seriesIncrement;
 	let type = inputs.seriesType;
+	  // convert number to regexp
 	let specifiedDigit = ''+ inputs.specifiedDigit;
 	var re = new RegExp(specifiedDigit, 'g');
+	  // the results:
 	let series = [];
 	let total = 0;
 	for(var i = start; i < end; i += incr) {
@@ -69,36 +73,37 @@
 	}
 	inputs.calculatedResults = total;
 	inputs.series = series;
+}
   </pre>
 
 
+	 <!- ____________________________________ ->
     <hr/>
     <h1>Question 4: SQL</h1>
     <p>I found the need to learn React took more time than I'd've liked.  The result is Question 4 is incomplete.
     Below is the requested schema and it contains sufficient detail for the requested queries even though it's
     clearly a very simplistic schema. </p>
     <h3>Part A</h3>
-  <p>The  <a href="question4/Bookazon.pdf">schema</a> </p>
+  		<p>The  <a href="question4/Bookazon.pdf">schema</a> </p>
 
     <h3>Part b</h3>
-    <p>Look into the public/question4 folder and see many sql scripts and csv files that I used to attempt this section.
-      The requested queries are typical for a sys admin who works with SQL regularly. Yet, I've not been as active with SQL for
-      the last few years as I've focused on other storage tools like MongoDb.  Hence, I frankly struggled to build the complete
-      queries as requested.  I was able to create many subqueries that could be used to make the larger, more complex queries.
+    <p>Look into the source code's public/question4 folder and see many sql scripts and csv files that I used to attempt this section.
+		The assignment requests are complex, although they are typical for a sys admin who works with SQL regularly.
+		I've not been as active with SQL for
+		the last few years as I've focused on other storage tools like MongoDb.  Hence, it was a struggle to build the complete
+		queries as requested, in the given time.  I was able to create many subqueries that I believe will be useful
+		to make the larger, more complex queries.
     </p>
     <h4>Part b.a</h4>
-    a.	Who is the best-selling author in each of the last 5 years, by unit volume (the number of books sold), and by sales volume (the total value of their sales)
-    <p> This query, <a href="question4/AuthSumTotal2.sql">AuthSumTotal2</a>, selects all authors and lists the total unit sales and sales volume per year. </p>
-<p>This sql, <a href="question4/salesByAuthorView.sql">salesByAuthorView</a>, begins the work of creating a view with the above that I was going
-to use to select the best selling author for the last 5 years, by units and then by sales</p>
+    	<p>This query, <a href="question4/AuthSumTotal2.sql">AuthSumTotal2</a>, selects all authors and lists the total unit sales and sales volume per year. </p>
+		<p>This sql, <a href="question4/salesByAuthorView.sql">salesByAuthorView</a>, begins the work of creating a view with the above that I was going
+			to use to select the best selling author for the last 5 years, by units and then by sales</p>
     <h4>Part b.b</h4>
-    b.	Who is the best-selling author in each of the last 5 years, by unit volume (the number of books sold), and by sales volume (the total value of their sales) in the category Fiction > Thrillers > Spy Novels
-<p>Once the above query is completed this is requires the addition of a where clause applied to the join that brings in book data. </p>
+		<p>Once the above query is completed then this section just needs the addition of a where clause applied to the join that brings in book data. </p>
 
     <h4>Part b.c</h4>
-    c.	What city and region (state or province) had the largest sales and unit growth over the past 5 years?
-<p>This query will be very similar to the query for part a except that it comes from the point of view of the
-customers who buys books rather than the authors who write them. </p>
+		<p>This query will be very similar to the query for part (a) except that it comes from the point of view of the
+		customers who buys books rather than the authors who write them. </p>
 
     <p></p>
 

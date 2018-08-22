@@ -1,5 +1,9 @@
 // data from http://country.io/names.json
-
+/*
+This web site only provides http connections which are very difficult to use now as web tooling
+closes down on CORs risks.  So, this file contains a static dump of the results from querying this site.
+The country information is dynamically gathered at run time because it supports https.
+ */
 var countryCodesJs = {
 	"BD": "Bangladesh",
 	"BE": "Belgium",

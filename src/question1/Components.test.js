@@ -15,4 +15,4 @@ it('AmountOutput renders without crashing', () => {
 	ReactDOM.unmountComponentAtNode(div);
 });
 
-
+// TODO add more tests. For each component but also for the REST methods.

@@ -12,6 +12,7 @@ import SeriesCalculator from './question3/SeriesCalculator';
 getCountryCodes().then(countryCodes => {
 	ReactDOM.render(<Container countryCodes={countryCodes}/>, document.getElementById('currencyConversion'));
 })
+// TODO the above component ought to look after it's own retrieval of country codes and be more self contained.
 
 // Question 2
 ReactDOM.render(<TestComponentCorrect />, document.getElementById('testComponent'));
@@ -19,4 +20,4 @@ ReactDOM.render(<TestComponentCorrect />, document.getElementById('testComponent
 // Question 3
 ReactDOM.render(<SeriesCalculator />, document.getElementById('series'));
 
-
+// Question 4 is described in the index.html
