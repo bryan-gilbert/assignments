@@ -20,11 +20,52 @@
 
     <hr/>
     <h1>Fix Test Component </h1>
+    <p>The following component's code contained several errors (that have been fixed) including.  Click on the 'Test Component' text to increment the click count.</p>
+    <uL>
+      <li>Fix 1: invoke super constructor</li>
+      <li>Fix 2: bind the click handler to this object so the method has access to the instance</li>
+      <li>Fix 3: the code attempted to dereference this.click which does not exist. Change to reference the click property in the state</li>
+    </uL>
+
     <div id="testComponent"></div>
 
     <hr/>
     <h1>Series Searcher</h1>
+    <p>Select your options as per the assignment document and see the results.
+    </p>
     <div id="series"></div>
+    <h3>The main calculation function:</h3>
+  <pre>
+    function question3(inputs) {
+	let start = inputs.seriesStart;
+	let end = inputs.seriesEnd;
+	let incr = inputs.seriesIncrement;
+	let type = inputs.seriesType;
+	let specifiedDigit = ''+ inputs.specifiedDigit;
+	var re = new RegExp(specifiedDigit, 'g');
+	let series = [];
+	let total = 0;
+	for(var i = start; i < end; i += incr) {
+		let str = '' + i;
+		var count = (str.match(re) || []).length;
+		if(type === 1) {
+			series.push(i);
+			total += count;
+		} else if(type === 2) {
+			if(i % 2 === 0) {
+				series.push(i);
+				total += count;
+			}
+		} else if(type === 3) {
+			if(i % 2 === 1) {
+				series.push(i);
+				total += count;
+			}
+		}
+	}
+	inputs.calculatedResults = total;
+	inputs.series = series;
+  </pre>
 
   </body>
 </html>
