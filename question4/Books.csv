@@ -1,0 +1,4 @@
+id,title,format,price,authorId,category
+1,foo,NULL,3,1,Fiction > Thrillers > Spy Novels'
+2,bar,NULL,9,2,Fiction > Thrillers > Spy Novels'
+3,doh,NULL,81,3,Fiction > Thrillers > Spy Novels'
