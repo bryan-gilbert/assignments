@@ -117,7 +117,7 @@ class Container extends React.Component {
 
 
 getCountryCodes().then(countryCodes => {
-	ReactDOM.render(<Container countryCodes={countryCodes}/>, document.getElementById('root'));
+	ReactDOM.render(<Container countryCodes={countryCodes}/>, document.getElementById('currencyConversion'));
 
 })
 

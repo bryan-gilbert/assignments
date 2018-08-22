@@ -3,13 +3,11 @@ import React from 'react';
 class Amount extends React.Component {
 	constructor(props) {
 		super(props);
-		let amount = props.amount;
-		this.state = {amount: amount};
 		this.handleChange = this.handleChange.bind(this);
 	}
 
 	updateState(amount) {
-		this.setState({amount: amount});
+		// this.setState({amount: amount});
 		this.props.callbackFromParent(amount);
 	}
 
@@ -25,11 +23,11 @@ class Amount extends React.Component {
 	}
 
 	render() {
+		//console.log("render amount", this.state, this.props)
 		let theLabel = this.props.label;
-		return 	<label>
-			{theLabel}:
-			<input type="number" value={this.state.amount} onChange={this.handleChange} />
-		</label>
+		return <span>	<label>{theLabel}</label>
+				<input type="number" value={this.props.amount} onChange={this.handleChange} />
+		</span>
 	}
 }
 
@@ -37,7 +35,7 @@ class Amount extends React.Component {
 class AmountOutput extends React.Component {
 	render() {
 		return 	<label>
-			{this.props.label}:{this.props.amount}
+			{this.props.label}  {this.props.amount}
 		</label>
 	}
 }
@@ -72,6 +70,7 @@ function question3(inputs) {
 	}
 	let calculatedResults = total;
 	inputs.calculatedResults = calculatedResults;
+	inputs.series = series;
 	//console.log(inputs,series);
 }
 
@@ -79,7 +78,8 @@ class SeriesCalculator extends React.Component {
 	constructor(props) {
 		super(props);
 		this.types =['all','even','odd'];
-		this.initState = 	{
+		this.state = 	{
+			series: [],
 			seriesStart: 1,
 			seriesEnd : 11,
 			seriesIncrement: 1,
@@ -87,13 +87,16 @@ class SeriesCalculator extends React.Component {
 			calculatedResults: 0,
 			specifiedDigit: 1
 		};
-		this.state = this.initState;
 		this.updateStart = this.updateStart.bind(this);
 		this.updateEnd = this.updateEnd.bind(this);
 		this.updateIncrement = this.updateIncrement.bind(this);
 		this.updateType = this.updateType.bind(this);
 		this.updateAnswer = this.updateAnswer.bind(this);
 		this.updateSpecifiedDigit = this.updateSpecifiedDigit.bind(this);
+	}
+
+	componentDidMount() {
+		this.updateAnswer(1,23,1,1,1);
 	}
 
 	updateSpecifiedDigit(digit) {
@@ -118,7 +121,9 @@ class SeriesCalculator extends React.Component {
 	}
 
 	updateAnswer(start, end, incr, type, digit) {
+		console.log(start, end, incr, type, digit);
 		let results = {
+			series: [],
 			seriesStart: start,
 			seriesEnd: end,
 			seriesIncrement: incr,
@@ -130,11 +135,12 @@ class SeriesCalculator extends React.Component {
 	}
 
 	render() {
+		//console.log("render series", this.state);
 		let seriesStart = this.state.seriesStart;
-
+		let series = this.state.series.join(',');
+		console.log(series);
 		return (
 				<div className="test-component" ref="seriesContainer">
-                <h2>Series Calculator</h2>
 					<dl>
 						<dt>Start</dt>
 						<dd><Amount amount={seriesStart} callbackFromParent={this.updateStart}/></dd>
@@ -148,13 +154,12 @@ class SeriesCalculator extends React.Component {
 						<dt>Specified Digit</dt>
 						<dd><Amount amount={this.state.specifiedDigit} max={9} min={0} callbackFromParent={this.updateSpecifiedDigit}/></dd>
 
-
 						<dt>Type</dt>
 						<dd><Amount amount={this.state.seriesType} max={3} min={1} callbackFromParent={this.updateType}/></dd>
 					</dl>
-<AmountOutput label="results" amount={this.state.calculatedResults} />
-
-	</div>
+					<AmountOutput label="results" amount={this.state.calculatedResults} />
+					<div>{series}</div>
+				</div>
 	);
 	}
 }
