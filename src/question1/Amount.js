@@ -19,10 +19,12 @@ class Amount extends React.Component {
   }
   
 	render() {
-		return 	<label> 
-			Amount:
-			<input type="currency" value={this.state.amount} onChange={this.handleChange} />
+		return <span>
+			<label>
+			Amount
 		</label>
+		<input type="currency" value={this.state.amount} onChange={this.handleChange} />
+		</span>
 	}
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './question1/Q1.css';
 
 import Container from './question1/Container';
 import getCountryCodes from './question1/countryCodes';
