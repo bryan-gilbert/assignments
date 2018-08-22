@@ -13,6 +13,8 @@ Assume you have npm installed.
    npm install
    npm start
 ```
+In a short while your browser should open with this link <a href="http://localhost:3000/#">http://localhost:3000/</a>.
+Yet if you have any other servers using port 3000 the ```npm start``` will prompt you to try another port.
 
 ## Built With
 
