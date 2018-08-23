@@ -13,6 +13,24 @@
       You need to enable JavaScript to run this app.
     </noscript>
 
+	 <hr/>
+	 <h1>Question 4: Update</h1>
+<p>There is an update for question 4. To setup you need MySQL. Create a database called bookazon.  Then launch mysql client as root and source the following files:
+</p>
+<pre>
+$	cd assignments/public/question4
+$   mysql -u root -p
+</pre>
+
+<pre>
+	drop database if exists bookazon;
+	create database bookazon;
+	source bookazon.sql;
+	source part_b_a.sql;
+	source part_b_b.sql;
+
+</pre>
+
 
     <hr/>
     <h1>Question 1: Currency Conversion</h1>

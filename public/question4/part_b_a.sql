@@ -7,7 +7,7 @@ use bookazon;
 select  a1.name, a1.yr, a1.totalAuthorUnits as units
 From salesByAuthor a1
 join (
-	select yr, max(totalAuthorUnits) as units
+select yr, max(totalAuthorUnits) as units
     from salesByAuthor
     where yr >= (YEAR(CURDATE()) -5)
     group by yr
@@ -19,7 +19,7 @@ order by yr DESC
 select  a1.name, a1.yr, a1.totalAuthorSales as sales
 From salesByAuthor a1
 join (
-	select yr, max(totalAuthorSales) as sales
+select yr, max(totalAuthorSales) as sales
     from salesByAuthor
     where yr >= (YEAR(CURDATE()) -5)
     group by yr
