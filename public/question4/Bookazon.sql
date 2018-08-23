@@ -11,6 +11,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema bookazon
 -- -----------------------------------------------------
 
+-- source Bookazon.sql;
+
 -- -----------------------------------------------------
 -- Schema bookazon
 -- -----------------------------------------------------
@@ -28,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bookazon`.`Authors` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
 ENGINE = InnoDB;
-
+LOAD DATA LOCAL INFILE 'Authors.csv' INTO TABLE Authors  FIELDS TERMINATED BY ',' ENCLOSED BY '"'  LINES TERMINATED BY '\n'  IGNORE 1 LINES;
 
 -- -----------------------------------------------------
 -- Table `bookazon`.`Books`
@@ -41,12 +43,12 @@ CREATE TABLE IF NOT EXISTS `bookazon`.`Books` (
   `format` VARCHAR(45) NOT NULL,
   `price` DOUBLE NULL default 0.0,
   `authorId` INT NULL,
-  `category` INT NULL,Orders
+  `category` INT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC)
 )
 ENGINE = InnoDB;
-
+LOAD DATA LOCAL INFILE 'Books.csv' INTO TABLE Books  FIELDS TERMINATED BY ',' ENCLOSED BY '"'    IGNORE 1 LINES;
 
 -- -----------------------------------------------------
 -- Table `bookazon`.`Categories`
@@ -59,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `bookazon`.`Categories` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
 ENGINE = InnoDB;
+LOAD DATA LOCAL INFILE 'Categories.csv' INTO TABLE Categories  FIELDS TERMINATED BY ',' ENCLOSED BY '"'  IGNORE 1 LINES;
 
 
 -- -----------------------------------------------------
@@ -74,38 +77,87 @@ CREATE TABLE IF NOT EXISTS `bookazon`.`Customers` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
 ENGINE = InnoDB;
+LOAD DATA LOCAL INFILE 'Customers.csv' INTO TABLE Customers  FIELDS TERMINATED BY ',' ENCLOSED BY '"'    IGNORE 1 LINES;
 
 
 -- -----------------------------------------------------
 -- Table `bookazon`.`LineItem`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `bookazon`.`LineItem` ;
+DROP TABLE IF EXISTS `bookazon`.`LineItems` ;
 
-CREATE TABLE IF NOT EXISTS `bookazon`.`LineItem` (
+CREATE TABLE IF NOT EXISTS `bookazon`.`LineItems` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `bookId` INT NOT NULL,
   `quantity` INT NOT NULL,
   `cost` DOUBLE NULL DEFAULT 0.0,
   `orderId` INT NOT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) 
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC)
 )
 ENGINE = InnoDB;
+LOAD DATA LOCAL INFILE 'LineItems.csv' INTO TABLE LineItems  FIELDS TERMINATED BY ',' ENCLOSED BY '"'    IGNORE 1 LINES;
 
 
 -- -----------------------------------------------------
 -- Table `bookazon`.`Orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `bookazon`.`Orders` ;
-
 CREATE TABLE IF NOT EXISTS `bookazon`.`Orders` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `date` DATETIME NOT NULL,
   `custId` INT NULL,
-  `date` DATETIME NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC)
-)
-ENGINE = InnoDB;
+  PRIMARY KEY (`id`),  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ) ENGINE = InnoDB;
+LOAD DATA LOCAL INFILE 'Orders.csv' INTO TABLE Orders  FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+
+-- select * from salesByAuthor;
+DROP VIEW IF EXISTS  `bookazon`.`salesByAuthor` ;
+CREATE VIEW `salesByAuthor` AS
+SELECT
+    authors.Name, SUM(bookSales.totalBookUnits) AS totalAuthorUnits,  SUM(bookSales.totalBookSales) AS totalAuthorSales,  bookSales.yr
+FROM  Books bookAuthor
+INNER JOIN  Authors authors
+ON authors.id = bookAuthor.authorId
+INNER JOIN (
+    SELECT
+        book.id bookId, FORMAT(SUM(cmb.totalUnits), 2) AS totalBookUnits, FORMAT(SUM(cmb.totalSales), 2) AS totalBookSales, yr
+    FROM Books book
+    INNER JOIN (
+        SELECT bookId, yr, SUM(quantity * cost) AS totalSales, SUM(quantity ) AS totalUnits FROM  LineItems item
+        INNER JOIN (
+            SELECT id, custId, YEAR(STR_TO_DATE(date, '%Y-%m-%d')) AS yr FROM Orders
+        ) AS orders
+        ON orders.id = item.orderId
+        GROUP BY bookId, yr
+        ORDER BY SUM(quantity * cost), SUM(quantity)
+  ) AS cmb
+    ON cmb.bookId = book.id
+    GROUP BY book.id, yr
+    ORDER BY SUM(book.price * cmb.totalUnits) DESC
+) AS bookSales
+ON bookSales.bookId = bookAuthor.id
+GROUP BY  bookSales.yr, bookAuthor.authorId
+ORDER BY SUM(bookSales.totalBookUnits) DESC
+;
+
+-- select * from booksSoldByYear;
+DROP VIEW IF EXISTS  `bookazon`.`booksSoldByYear` ;
+CREATE VIEW `booksSoldByYear` AS
+SELECT bookId, yr, SUM(quantity * cost) AS totalSales, SUM(quantity ) AS totalUnits
+FROM LineItems items
+INNER JOIN (SELECT id, custId, YEAR(STR_TO_DATE(date, '%Y-%m-%d')) AS yr FROM Orders) orders ON orders.id = items.orderId
+GROUP BY bookId, yr
+ORDER BY SUM(quantity * cost), SUM(quantity)
+;
+
+
+-- select * from booksSold;
+DROP VIEW IF EXISTS  `bookazon`.`booksSold` ;
+CREATE VIEW `booksSold` AS
+select title as bookTitle, cat.category, auth.Name as Author, format, b2.yr, b2.totalSales,  b2.totalUnits from books AS b1
+INNER JOIN ( SELECT c.id, c.category from Categories c) as cat ON b1.category = cat.id
+INNER JOIN ( SELECT a.id, a.Name from Authors a ) as auth ON auth.id = b1.authorId
+INNER JOIN ( SELECT bookId, yr, totalSales, totalUnits from booksSoldByYear b2 ) as b2 ON b1.id = b2.bookId
+;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
