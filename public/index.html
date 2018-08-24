@@ -15,19 +15,25 @@
 
 	 <hr/>
 	 <h1>Question 4: Update</h1>
-<p>There is an update for question 4. To setup you need MySQL. Create a database called bookazon.  Then launch mysql client as root and source the following files:
+<p>There is an update for question 4 and this completes the basics for the assignment.
+	The complet SQL to create a Bookazon database, complete with test data and the requested
+	queries are all contained in the public/question4 directory.
+</p> <p>
+	To setup and run the queries you need MySQL and MySQL client.
+	Start by launching the mysql client as root:
 </p>
 <pre>
 $	cd assignments/public/question4
 $   mysql -u root -p
 </pre>
-
+<p>Next source the scripts to create the data and run the queries. </p>
 <pre>
 	drop database if exists bookazon;
 	create database bookazon;
 	source bookazon.sql;
 	source part_b_a.sql;
 	source part_b_b.sql;
+	source part_b_c.sql;
 
 </pre>
 
