@@ -160,6 +160,13 @@ INNER JOIN ( SELECT bookId, yr, totalSales, totalUnits from booksSoldByYear b2 )
 ;
 
 
+DROP VIEW IF EXISTS  `bookazon`.`customersOrders` ;
+CREATE VIEW `customersOrders` AS
+select Name, City, State, o.yr, li.bookId, li.quantity, li.cost, li.total FROM Customers AS c
+INNER JOIN (SELECT o.id, custId, YEAR(STR_TO_DATE(date, '%Y-%m-%d')) AS yr from Orders as o) as o ON o.custId = c.id
+INNER JOIN (SELECT bookId, quantity, cost, (quantity*cost ) total, orderId  FROM LineItems li) as li ON li.orderId = o.id
+;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
