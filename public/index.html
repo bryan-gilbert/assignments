@@ -14,29 +14,6 @@
     </noscript>
 
 	 <hr/>
-	 <h1>Question 4: Update</h1>
-<p>There is an update for question 4 and this completes the basics for the assignment.
-	The complet SQL to create a Bookazon database, complete with test data and the requested
-	queries are all contained in the public/question4 directory.
-</p> <p>
-	To setup and run the queries you need MySQL and MySQL client.
-	Start by launching the mysql client as root:
-</p>
-<pre>
-$	cd assignments/public/question4
-$   mysql -u root -p
-</pre>
-<p>Next source the scripts to create the data and run the queries. </p>
-<pre>
-	drop database if exists bookazon;
-	create database bookazon;
-	source bookazon.sql;
-	source part_b_a.sql;
-	source part_b_b.sql;
-	source part_b_c.sql;
-
-</pre>
-
 
     <hr/>
     <h1>Question 1: Currency Conversion</h1>
@@ -104,32 +81,29 @@ $   mysql -u root -p
 	 <!- ____________________________________ ->
     <hr/>
     <h1>Question 4: SQL</h1>
-    <p>I found the need to learn React took more time than I'd've liked.  The result is Question 4 is incomplete.
-    Below is the requested schema and it contains sufficient detail for the requested queries even though it's
-    clearly a very simplistic schema. </p>
-    <h3>Part A</h3>
-  		<p>The  <a href="question4/Bookazon.pdf">schema</a> </p>
+    <p>I found the need to learn React took more time than I'd've liked.  The result was Question 4
+	 was answered a little later.  The result is ...
+		 complete SQL to create a Bookazon database, complete with test data and the requested
+		 queries are all contained in the public/question4 directory.
+	 </p> <p>
+		 To setup and run the queries you need MySQL and MySQL client.
+		 Start by launching the mysql client as root:
+	 </p>
+	 <pre>
+$	cd assignments/public/question4
+$   mysql -u root -p
+</pre>
+	 <p>Next source the scripts to create the data and run the queries. </p>
+	 <pre>
+	drop database if exists bookazon;
+	create database bookazon;
+	source bookazon.sql;
+	source part_b_a.sql;
+	source part_b_b.sql;
+	source part_b_c.sql;
 
-    <h3>Part b</h3>
-    <p>Look into the source code's public/question4 folder and see many sql scripts and csv files that I used to attempt this section.
-		The assignment requests are complex, although they are typical for a sys admin who works with SQL regularly.
-		I've not been as active with SQL for
-		the last few years as I've focused on other storage tools like MongoDb.  Hence, it was a struggle to build the complete
-		queries as requested, in the given time.  I was able to create many subqueries that I believe will be useful
-		to make the larger, more complex queries.
-    </p>
-    <h4>Part b.a</h4>
-    	<p>This query, <a href="question4/AuthSumTotal2.sql">AuthSumTotal2</a>, selects all authors and lists the total unit sales and sales volume per year. </p>
-		<p>This sql, <a href="question4/salesByAuthorView.sql">salesByAuthorView</a>, begins the work of creating a view with the above that I was going
-			to use to select the best selling author for the last 5 years, by units and then by sales</p>
-    <h4>Part b.b</h4>
-		<p>Once the above query is completed then this section just needs the addition of a where clause applied to the join that brings in book data. </p>
+</pre>
 
-    <h4>Part b.c</h4>
-		<p>This query will be very similar to the query for part (a) except that it comes from the point of view of the
-		customers who buys books rather than the authors who write them. </p>
-
-    <p></p>
 
   </body>
 </html>
